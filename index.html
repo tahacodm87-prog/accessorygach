@@ -8,24 +8,29 @@
     <style>
         body {
             font-family: "Shabnam", sans-serif;
+            background: #111; /* پس زمینه شبانه */
+            color: white;
             margin: 0;
             padding: 0;
-            background: #f5f5f5;
+            transition: background-color 0.3s ease;
         }
+
         header {
             background: #222;
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
+            border-bottom: 2px solid #3498db;
         }
+
         .menu {
             display: flex;
             justify-content: center;
             gap: 30px;
             background: #111;
             padding: 15px;
-            margin: 0;
         }
+
         .menu a {
             color: white;
             text-decoration: none;
@@ -33,29 +38,89 @@
             font-size: 18px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            border: 2px solid transparent;
         }
+
         .menu a:hover {
-            background: #3498db;
+            background-color: #3498db;
+            border-color: #3498db;
         }
+
         .content {
             padding: 20px;
             text-align: center;
         }
+
         .content h2 {
-            margin-top: 20px;
-            font-size: 26px;
+            font-size: 30px;
+            margin-bottom: 20px;
         }
+
+        .content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background: #222;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-card h3 {
+            margin: 15px 0;
+            font-size: 20px;
+        }
+
+        .product-card p {
+            font-size: 18px;
+        }
+
+        .buy-button {
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .buy-button:hover {
+            background-color: #2980b9;
+        }
+
         footer {
             text-align: center;
             background: #222;
             color: white;
-            padding: 10px;
+            padding: 15px;
             position: fixed;
             width: 100%;
             bottom: 0;
+            font-size: 14px;
         }
 
-        /* پنل مدیریت */
         .admin-panel {
             display: none;
             position: fixed;
@@ -68,44 +133,18 @@
             cursor: pointer;
             font-size: 18px;
         }
+
         .admin-panel.show {
             display: block;
         }
 
-        /* پنل مدیریت */
-        .sidebar {
-            width: 200px;
-            background: #111;
-            color: white;
-            position: fixed;
-            height: 100%;
-            padding-top: 20px;
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
         }
-        .sidebar a {
-            display: block;
-            padding: 15px;
-            text-decoration: none;
-            color: white;
-            border-bottom: 1px solid #444;
-        }
-        .sidebar a:hover {
-            background: #3498db;
-        }
-        .content-dashboard {
-            margin-left: 220px;
-            padding: 20px;
-        }
-        .btn {
-            padding: 10px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background: #2980b9;
-        }
+
     </style>
 </head>
 <body>
@@ -124,12 +163,27 @@
 </div>
 
 <div class="content">
-    <h2>به فروشگاه اکسسوری خوش آمدید</h2>
+    <h2>محصولات فروشگاه</h2>
     <p>محصولات متنوع و با کیفیت در دسته‌بندی‌های مختلف برای شما آماده است.</p>
+    <div class="product-container">
+        <div class="product-card">
+            <img src="img/necklace1.jpg" alt="گردنبند">
+            <h3>گردنبند مدل A</h3>
+            <p>250 هزار تومان</p>
+            <button class="buy-button" onclick="window.location.href='payment-gateway-link'">خرید</button>
+        </div>
+        <div class="product-card">
+            <img src="img/necklace2.jpg" alt="گردنبند">
+            <h3>گردنبند مدل B</h3>
+            <p>300 هزار تومان</p>
+            <button class="buy-button" onclick="window.location.href='payment-gateway-link'">خرید</button>
+        </div>
+    </div>
 </div>
 
 <footer>
     <p>تماس: 09199992134 | ایمیل: info@example.com</p>
+    <p>مدیریت: طاها یاری جو</p>
 </footer>
 
 <!-- پنل مدیریت (فقط برای ادمین) -->
@@ -137,47 +191,11 @@
     پنل مدیریت
 </div>
 
-<!-- صفحه پنل مدیریت -->
-<div id="admin-dashboard" class="sidebar">
-    <h2>پنل مدیریت</h2>
-    <a href="#">مدیریت محصولات</a>
-    <a href="#">ویرایش متون</a>
-    <a href="#">مدیریت تصاویر</a>
-    <a href="#">خروج</a>
-</div>
-
-<div id="admin-dashboard-content" class="content-dashboard">
-    <h2>مدیریت محصولات</h2>
-    <button class="btn" onclick="addProduct()">افزودن محصول جدید</button>
-
-    <h2>ویرایش سایت</h2>
-    <button class="btn" onclick="editText()">ویرایش متون صفحه اصلی</button>
-
-    <h2>مدیریت تصاویر</h2>
-    <button class="btn" onclick="manageImages()">مدیریت تصاویر</button>
-</div>
-
 <script>
     // شبیه‌سازی ورود به پنل مدیریت
     const isAdmin = true; // در دنیای واقعی باید با ورود به سیستم بررسی کنید
     if (isAdmin) {
         document.getElementById("adminPanel").classList.add("show");
-    }
-
-    // عملکردهای پنل مدیریت
-    function addProduct() {
-        alert("فرم افزودن محصول جدید نمایش داده می‌شود.");
-        // اینجا می‌توانید فرم اضافه کردن محصول را پیاده‌سازی کنید
-    }
-
-    function editText() {
-        alert("فرم ویرایش متون نمایش داده می‌شود.");
-        // اینجا می‌توانید فرم ویرایش متون صفحه اصلی را پیاده‌سازی کنید
-    }
-
-    function manageImages() {
-        alert("فرم مدیریت تصاویر نمایش داده می‌شود.");
-        // اینجا می‌توانید فرم مدیریت تصاویر را پیاده‌سازی کنید
     }
 </script>
 
