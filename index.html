@@ -1,375 +1,185 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فروشگاه اکسسوری حرفه‌ای</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه اکسسوری</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shabnam&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Shabnam", sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        header {
+            background: #222;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: #111;
+            padding: 15px;
+            margin: 0;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .menu a:hover {
+            background: #3498db;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content h2 {
+            margin-top: 20px;
+            font-size: 26px;
+        }
+        footer {
+            text-align: center;
+            background: #222;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
 
-<style>
-/* ------------------ استایل اصلی -------------------- */
+        /* پنل مدیریت */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .admin-panel.show {
+            display: block;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #111, #222);
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    perspective: 1200px;
-}
-
-/* ساعت */
-#clock {
-    font-size: 2em;
-    text-align: center;
-    margin: 20px 0;
-    animation: pulse 1.5s infinite alternate;
-    text-shadow: 0 0 10px #0af;
-}
-@keyframes pulse { 0% { text-shadow:0 0 5px #0af;} 100% { text-shadow:0 0 20px #0af;} }
-
-/* --- منوی سه‌بعدی --- */
-nav {
-    width: 300px;
-    margin: 20px auto;
-    background: #222;
-    border-radius: 15px;
-    padding: 15px;
-    transform-style: preserve-3d;
-    transition: transform 0.3s;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-}
-nav ul { list-style: none; padding: 0; margin:0; }
-nav ul li {
-    padding: 12px;
-    cursor: pointer;
-    background: #333;
-    margin-bottom: 6px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    transform-style: preserve-3d;
-}
-nav ul li:hover {
-    background: #0af;
-    transform: translateZ(10px) scale(1.03);
-    box-shadow: 0 0 15px #0af;
-}
-nav ul li ul {
-    display: none;
-    padding-left: 20px;
-}
-nav ul li:hover ul { display: block; }
-
-/* شبکه اجتماعی */
-.contacts { text-align: center; margin: 20px 0; }
-.contacts a {
-    display: inline-block;
-    margin: 5px 10px;
-    color: #0af;
-    font-size: 2em;
-    transition: 0.3s;
-}
-.contacts a:hover { transform: scale(1.2); color:#09f; }
-
-/* شماره کارت */
-.payment {
-    text-align: center;
-    margin: 20px auto;
-    background: #222;
-    padding: 20px;
-    border-radius: 15px;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 0 20px #0af inset;
-}
-.payment p { color:#0af; letter-spacing:2px; }
-
-/* محصولات */
-.products { display: flex; flex-wrap: wrap; justify-content: center; }
-.product {
-    background: #222;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 15px;
-    width: 180px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    transition: 0.3s;
-}
-.product:hover { transform: scale(1.05); box-shadow: 0 0 20px #0af; }
-.product img { width:100px; height:100px; border-radius:10px; }
-
-/* سبد خرید */
-.cart { text-align:center; margin:30px 0; }
-.cart button {
-    padding:12px 25px; background:#0af; border:none; border-radius:10px;
-    cursor:pointer; font-weight:bold; box-shadow:0 0 10px #0af;
-}
-.cart-count {
-    position:absolute; top:-10px; right:-10px; background:red; color:white;
-    width:25px; height:25px; border-radius:50%; display:flex;
-    align-items:center; justify-content:center;
-}
-
-/* دکمه ورود مدیر */
-#adminLoginBtn {
-    position: fixed; bottom: 20px; right: 20px;
-    background:#ffcc00; padding:10px 15px;
-    border-radius:10px; cursor:pointer; border:none; font-weight:bold;
-}
-
-/* پنل ورود مدیر */
-#adminLoginPanel {
-    display:none; position:fixed; top:50%; left:50%;
-    transform:translate(-50%, -50%);
-    background:#111; padding:20px; width:90%; max-width:350px;
-    border-radius:15px; color:white; box-shadow:0 0 20px #0af;
-}
-
-/* داشبورد */
-#adminDashboard {
-    display:none; position:fixed; top:0; left:0;
-    width:100%; height:100%; background:#000c;
-    backdrop-filter:blur(8px);
-}
-
-</style>
+        /* پنل مدیریت */
+        .sidebar {
+            width: 200px;
+            background: #111;
+            color: white;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid #444;
+        }
+        .sidebar a:hover {
+            background: #3498db;
+        }
+        .content-dashboard {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .btn {
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
 </head>
 <body>
 
-<!-- ساعت -->
-<div id="clock"></div>
+<!-- صفحه اصلی -->
+<header>
+    <h1>فروشگاه اکسسوری حرفه‌ای</h1>
+</header>
 
-<!-- منو -->
-<nav>
-    <ul>
-        <li>اکسسوری
-            <ul>
-                <li>گردنبند</li>
-                <li>دستبند</li>
-                <li>کمربند</li>
-                <li>ساعت</li>
-                <li>انگشتر</li>
-            </ul>
-        </li>
-    </ul>
-</nav>
-
-<!-- شبکه اجتماعی -->
-<div class="contacts">
-    <p>شماره تماس: <a href="tel:09199921342">09199921342</a></p>
-    <p>
-        <a href="#"><i class="fab fa-telegram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-    </p>
+<div class="menu">
+    <a href="#">گردنبند</a>
+    <a href="#">دستبند</a>
+    <a href="#">کمربند</a>
+    <a href="#">ساعت</a>
+    <a href="#">انگشتر</a>
 </div>
 
-<!-- شماره کارت -->
-<div class="payment">
-    <h3>شماره کارت برای پرداخت:</h3>
-    <p id="cardNumber">6037 9912 3456 7890</p>
+<div class="content">
+    <h2>به فروشگاه اکسسوری خوش آمدید</h2>
+    <p>محصولات متنوع و با کیفیت در دسته‌بندی‌های مختلف برای شما آماده است.</p>
 </div>
 
-<!-- محصولات -->
-<div class="products">
-    <div class="product" data-price="150000">
-        <img src="https://via.placeholder.com/100?text=گردنبند">
-        <h4>گردنبند</h4>
-        <p>قیمت: 150,000 تومان</p>
-        <button onclick="addToCart('گردنبند',150000,this)">افزودن به سبد</button>
-    </div>
+<footer>
+    <p>تماس: 09199992134 | ایمیل: info@example.com</p>
+</footer>
 
-    <div class="product" data-price="120000">
-        <img src="https://via.placeholder.com/100?text=دستبند">
-        <h4>دستبند</h4>
-        <p>قیمت: 120,000 تومان</p>
-        <button onclick="addToCart('دستبند',120000,this)">افزودن به سبد</button>
-    </div>
+<!-- پنل مدیریت (فقط برای ادمین) -->
+<div class="admin-panel" id="adminPanel" onclick="window.location.href='#admin-dashboard'">
+    پنل مدیریت
 </div>
 
-<!-- سبد خرید -->
-<div class="cart">
-    <button onclick="goToPayment()">
-        سبد خرید
-        <span id="cartCount" class="cart-count">0</span>
-    </button>
-    <p id="cartTotal">جمع: 0 تومان</p>
+<!-- صفحه پنل مدیریت -->
+<div id="admin-dashboard" class="sidebar">
+    <h2>پنل مدیریت</h2>
+    <a href="#">مدیریت محصولات</a>
+    <a href="#">ویرایش متون</a>
+    <a href="#">مدیریت تصاویر</a>
+    <a href="#">خروج</a>
 </div>
 
+<div id="admin-dashboard-content" class="content-dashboard">
+    <h2>مدیریت محصولات</h2>
+    <button class="btn" onclick="addProduct()">افزودن محصول جدید</button>
 
+    <h2>ویرایش سایت</h2>
+    <button class="btn" onclick="editText()">ویرایش متون صفحه اصلی</button>
 
-<!-- 🔥 دکمه ورود مدیر -->
-<button id="adminLoginBtn">ورود مدیر</button>
-
-<!-- 🔐 پنل ورود -->
-<div id="adminLoginPanel">
-    <h2>ورود مدیر</h2>
-
-    <label>نام کاربری:</label>
-    <input id="adminUser">
-
-    <label>رمز عبور:</label>
-    <input id="adminPass" type="password">
-
-    <button onclick="adminLogin()">ورود</button>
+    <h2>مدیریت تصاویر</h2>
+    <button class="btn" onclick="manageImages()">مدیریت تصاویر</button>
 </div>
-
-<!-- 🎛️ داشبورد مدیریت -->
-<div id="adminDashboard">
-    <div style="background:#111; width:90%; max-width:600px; margin:50px auto; padding:20px; border-radius:20px;">
-        <h2 style="text-align:center;">پنل مدیریت</h2>
-
-        <h3>ویرایش شماره کارت:</h3>
-        <input id="editCard" style="width:100%;padding:10px;border-radius:10px;margin-bottom:20px;">
-
-        <h3>افزودن محصول جدید:</h3>
-        <input id="newName" placeholder="نام محصول" style="width:100%;padding:10px;border-radius:10px;margin-bottom:5px;">
-        <input id="newPrice" placeholder="قیمت" style="width:100%;padding:10px;border-radius:10px;margin-bottom:5px;">
-        <input id="newImg" placeholder="لینک عکس" style="width:100%;padding:10px;border-radius:10px;margin-bottom:10px;">
-
-        <button onclick="addProduct()" style="width:100%;padding:10px;background:#0af;border:none;border-radius:10px;margin-bottom:20px;">
-            افزودن محصول
-        </button>
-
-        <h3>ویرایش محصولات:</h3>
-        <div id="productEditor"></div>
-
-        <button onclick="saveChanges()" style="width:100%;padding:10px;background:#09f;border:none;border-radius:10px;margin-top:20px;">
-            ذخیره تغییرات
-        </button>
-
-        <button onclick="logoutAdmin()" style="width:100%;padding:10px;background:red;border:none;border-radius:10px;margin-top:20px;">
-            خروج
-        </button>
-    </div>
-</div>
-
-
-
 
 <script>
-/* ------------------ ساعت -------------------- */
-function updateClock() {
-    const now = new Date();
-    document.getElementById("clock").innerText =
-        now.toLocaleDateString("fa-IR") + " — " + now.toLocaleTimeString("fa-IR");
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-/* ------------------ مدیریت -------------------- */
-
-const admin = { user:"admin", pass:"123456" };
-
-document.getElementById("adminLoginBtn").onclick = () => {
-    document.getElementById("adminLoginPanel").style.display = "block";
-};
-
-function adminLogin(){
-    if(
-        document.getElementById("adminUser").value === admin.user &&
-        document.getElementById("adminPass").value === admin.pass
-    ){
-        document.getElementById("adminLoginPanel").style.display = "none";
-        loadDashboard();
-        document.getElementById("adminDashboard").style.display = "block";
-    } else {
-        alert("ورود ناموفق!");
+    // شبیه‌سازی ورود به پنل مدیریت
+    const isAdmin = true; // در دنیای واقعی باید با ورود به سیستم بررسی کنید
+    if (isAdmin) {
+        document.getElementById("adminPanel").classList.add("show");
     }
-}
 
-function logoutAdmin(){
-    document.getElementById("adminDashboard").style.display = "none";
-}
+    // عملکردهای پنل مدیریت
+    function addProduct() {
+        alert("فرم افزودن محصول جدید نمایش داده می‌شود.");
+        // اینجا می‌توانید فرم اضافه کردن محصول را پیاده‌سازی کنید
+    }
 
-/* --- سبد خرید --- */
+    function editText() {
+        alert("فرم ویرایش متون نمایش داده می‌شود.");
+        // اینجا می‌توانید فرم ویرایش متون صفحه اصلی را پیاده‌سازی کنید
+    }
 
-let cart=[];
-function addToCart(name,price,btn){
-    cart.push({name,price});
-    document.getElementById("cartCount").innerText = cart.length;
-    document.getElementById("cartTotal").innerText =
-        "جمع: " + cart.reduce((a,b)=>a+b.price,0).toLocaleString() + " تومان";
-}
-
-function goToPayment(){
-    let total = cart.reduce((a,b)=>a+b.price,0);
-    if(total===0) return alert("سبد خالی است!");
-    alert("مبلغ پرداخت: "+total.toLocaleString()+" تومان");
-}
-
-/* --- داشبورد --- */
-
-function loadDashboard(){
-    document.getElementById("editCard").value =
-        document.getElementById("cardNumber").innerText;
-
-    loadProductEditor();
-}
-
-function loadProductEditor(){
-    const products = document.querySelectorAll(".product");
-    let html="";
-    products.forEach((p,i)=>{
-        html += `
-            <div style="background:#222;padding:10px;border-radius:10px;margin-bottom:10px;">
-                <input id="pName${i}" value="${p.querySelector("h4").innerText}" style="width:100%;padding:8px;border-radius:8px;margin-bottom:5px;">
-                <input id="pPrice${i}" value="${p.dataset.price}" style="width:100%;padding:8px;border-radius:8px;margin-bottom:5px;">
-                <input id="pImg${i}" value="${p.querySelector("img").src}" style="width:100%;padding:8px;border-radius:8px;margin-bottom:5px;">
-                <button onclick="deleteProduct(${i})" style="width:100%;background:red;border:none;padding:10px;border-radius:10px;color:white;">
-                    حذف محصول
-                </button>
-            </div>
-        `;
-    });
-    document.getElementById("productEditor").innerHTML = html;
-}
-
-function deleteProduct(id){
-    const products = document.querySelectorAll(".product");
-    products[id].remove();
-    loadProductEditor();
-}
-
-function addProduct(){
-    const name = document.getElementById("newName").value;
-    const price = document.getElementById("newPrice").value;
-    const img = document.getElementById("newImg").value;
-
-    if(!name || !price || !img) return alert("کامل وارد کن!");
-
-    const div = document.createElement("div");
-    div.className = "product";
-    div.dataset.price = price;
-    div.innerHTML = `
-        <img src="${img}">
-        <h4>${name}</h4>
-        <p>قیمت: ${Number(price).toLocaleString()} تومان</p>
-        <button onclick="addToCart('${name}',${price},this)">افزودن به سبد</button>
-    `;
-    document.querySelector(".products").appendChild(div);
-
-    loadProudctList();
-}
-
-function saveChanges(){
-    document.getElementById("cardNumber").innerText =
-        document.getElementById("editCard").value;
-
-    const products=document.querySelectorAll(".product");
-    products.forEach((p,i)=>{
-        p.querySelector("h4").innerText = document.getElementById("pName"+i).value;
-        const price = document.getElementById("pPrice"+i).value;
-        p.dataset.price = price;
-        p.querySelector("p").innerText = "قیمت: " + Number(price).toLocaleString() + " تومان";
-        p.querySelector("img").src = document.getElementById("pImg"+i).value;
-    });
-
-    alert("تغییرات ذخیره شد");
-}
-
+    function manageImages() {
+        alert("فرم مدیریت تصاویر نمایش داده می‌شود.");
+        // اینجا می‌توانید فرم مدیریت تصاویر را پیاده‌سازی کنید
+    }
 </script>
+
 </body>
 </html>
-
